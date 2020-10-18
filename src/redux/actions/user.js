@@ -1,16 +1,37 @@
-import { createAction } from '.';
-import { LOGIN_SUCCESS, REGISTER_SUCCESS } from '../../constants/constant';
+import { LOGIN_SUCCESS, REGISTER_SUCCESS, LOGIN_FAILL } from '../../constants/constant';
 import {LoginService, RegisterService} from '../../services';
 
-export const loginAction = (data) => {
+// login success
+const loginSucceeded = (loginData) => {
+    const {status} = loginData;
+    return {
+      type: LOGIN_SUCCESS,
+      loginStatus: status,
+      // loginMessage: msg
+    };
+  }
+  
+  // login failed
+  const loginFailed = (loginData) => {
+    const {status} = loginData;
+    return {
+      type: LOGIN_FAILL,
+      loginStatus: status
+    };
+  }
+
+export const loginAction = (taiKhoan, matKhau) => {
     return (dispatch) => {
-        LoginService(data)
+        LoginService(taiKhoan, matKhau)
         .then(res => {
-            // dispatch(createAction(LOGIN_SUCCESS, res.data));
+            dispatch(loginSucceeded(res));
             // localStorage.setItem('credentials', JSON.stringify(res.data));
             console.log(res)
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            dispatch(loginFailed(err.res));
+            console.log(err.res)
+          });
     }
 }
 
@@ -20,7 +41,7 @@ export const registerAction = (taiKhoan, matKhau, email, soDt, maNhom, maLoaiNgu
         .then(res => {
             // dispatch(createAction(REGISTER_SUCCESS, res.data));
             // localStorage.setItem('credentials1', JSON.stringify(res.data));
-            console.log(res.data);
+            console.log(res);
         })
         .catch((err) => {
             console.log(err)});

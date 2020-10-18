@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { LOGIN_API, REGISTER_API } from './api';
 
-export function LoginService(data) {
+export function LoginService(taiKhoan, matKhau) {
+  const loginData = {taiKhoan, matKhau};
     return  axios({
       method: 'POST',
-      url: 'https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/DangNhap',
-      data,
+      url: LOGIN_API,
+      data: loginData,
     });
 }
 

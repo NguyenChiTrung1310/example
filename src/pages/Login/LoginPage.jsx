@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'; 
 import { toast } from 'react-toastify';
@@ -18,8 +18,12 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const [fields, setFields] = useState({
-    email: '',
-    password: '',
+    taiKhoan: '',
+    matKhau: '',
+  });
+
+  const loginStatus = useSelector((state) => {
+    return state.user.loginStatus;
   });
 
   const handleChange = (e) => {
@@ -30,11 +34,15 @@ const LoginPage = () => {
   };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
   
-    // handleLoginForm(fields);
+    const {taiKhoan, matKhau} = fields
 
-    dispatch(loginAction(e)); // dispatch action
+    handleLoginForm(fields, loginStatus);
+    console.log(loginStatus);
+
+
+    dispatch(loginAction(taiKhoan.trim(), matKhau.trim())); // dispatch action
 
   };
   return (
@@ -56,32 +64,32 @@ const LoginPage = () => {
           onSubmit={handleSubmit}
         >
           <TextField
-            autoComplete='email'
+            autoComplete='taiKhoan'
             autoFocus
             className={classes.field}
             fullWidth
-            id='email'
+            id='taiKhoan'
             label='Username'
             margin='normal'
-            name='email'
+            name='taiKhoan'
             onChange={(event) => handleChange(event)}
             required
             type='text'
-            value={fields.email}
+            value={fields.taiKhoan}
             variant='outlined'
           />
           <TextField
-            autoComplete='password'
+            autoComplete='matKhau'
             className={classes.field}
             fullWidth
-            id='password'
-            label='Password'
+            id='matKhau'
+            label='matKhau'
             margin='normal'
-            name='password'
+            name='matKhau'
             onChange={(event) => handleChange(event)}
             required
             type='password'
-            value={fields.password}
+            value={fields.matKhau}
             variant='outlined'
           />
           <Button type='submit'>Sign In</Button>
@@ -107,10 +115,10 @@ const LoginPage = () => {
 };
 
 LoginPage.propTypes = {
-  email: PropTypes.string,
+  taiKhoan: PropTypes.string,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func, 
-  password: PropTypes.string 
+  matKhau: PropTypes.string 
 };
 
 export default LoginPage;

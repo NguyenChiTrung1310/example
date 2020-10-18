@@ -14,7 +14,7 @@ const SliderSlick=()=> {
     slidesToScroll: 1
   };
 
-  const [settings, setSettings] = useState(config);
+  const [settings] = useState(config);
 
   return (
     <div className='slick'>
@@ -30,6 +30,7 @@ const SliderSlick=()=> {
             <img
               className='img'
               src={img}
+              alt='imageeee'
             />
             <div className='card-body'>
               <div className='card-title'>{title}</div>
